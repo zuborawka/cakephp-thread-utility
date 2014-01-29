@@ -10,6 +10,92 @@
 class ThreadUtility {
 
 	/**
+	 * @param     $thread
+	 * @param int $depth
+	 * @param int $maxDepth
+	 *
+	 * @return int
+	 */
+	protected static function _maxDepthOfThread($thread, $depth = 1, $maxDepth = 1)
+	{
+		foreach ($thread as $_thread) {
+			if (! empty($_thread['children'])) {
+				$depth++;
+				if ($maxDepth < $depth) {
+					$maxDepth = $depth;
+				}
+				$maxDepth = self::_maxDepthOfThread($_thread['children'], $depth, $maxDepth);
+			}
+		}
+
+		return $maxDepth;
+	}
+
+	/**
+	 * @param $thread
+	 */
+	protected static function _setRowSpan(&$thread)
+	{
+		foreach ($thread as $i => $_thread) {
+			$children = $_thread['children'];
+			self::_setRowSpan($children);
+			$thread[$i]['children'] = $children;
+			$thread[$i]['rowSpan'] = self::_countRowSpan($_thread);
+		}
+	}
+
+	/**
+	 * @param $thread
+	 *
+	 * @return int
+	 */
+	protected static function _countRowSpan($thread)
+	{
+		if (empty($thread['children'])) {
+			return 1;
+		}
+
+		$num = 0;
+		foreach ($thread['children'] as $child) {
+			$num += self::_countRowSpan($child);
+		}
+
+		return $num;
+	}
+
+	/**
+	 * @param       $thread
+	 * @param       $maxDepth
+	 * @param int   $currentDepth
+	 * @param array $positioning
+	 * @param array $rows
+	 *
+	 * @return array
+	 */
+	protected static function _threadToRows($thread, $maxDepth, $currentDepth = 0, &$positioning = array(), $rows = array())
+	{
+		foreach ($thread as $_thread) {
+			$children = $_thread['children'];
+			unset($_thread['children']);
+			$colSpan = $children ? 1 : $maxDepth - $currentDepth;
+			$rowSpan = $_thread['rowSpan'];
+			$pos = isset($positioning[$currentDepth]) ? $positioning[$currentDepth] : 0;
+			$nextRowPos = $pos + $rowSpan;
+			for ($_ = 0; $_ < $colSpan; $_++) {
+				$positioning[$currentDepth + $_] = $nextRowPos;
+			}
+			$_thread['colSpan'] = $colSpan;
+			if (! isset($rows[$pos])) {
+				$rows[$pos] = array();
+			}
+			$rows[$pos][$currentDepth] = $_thread;
+			$rows = self::_threadToRows($children, $maxDepth, $currentDepth + 1, $positioning, $rows);
+		}
+		return $rows;
+	}
+
+
+	/**
 	 * スレッド形式のデータ[= Model::find('threaded')で取得したデータ] における、最大深度を計測して返します。
 	 *
 	 * Returns the max depth of thread array
@@ -20,7 +106,10 @@ class ThreadUtility {
 	 */
 	public static function maxDepthOfThread(array $thread)
 	{
-		return 0;
+		if (empty($thread)) {
+			return 0;
+		}
+		return self::_maxDepthOfThread($thread);
 	}
 
 	/**
@@ -67,6 +156,8 @@ class ThreadUtility {
 	 */
 	public static function threadToRows(array $thread)
 	{
-		return array();
+		self::_setRowSpan($thread);
+		$maxDepth = self::_maxDepthOfThread($thread);
+		return self::_threadToRows($thread, $maxDepth);
 	}
 }
