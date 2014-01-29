@@ -1,0 +1,25 @@
+{
+  "name" : "zuborawka/cakephp-thread-utility",
+  "type": "cakephp-plugin",
+  "description": "Utility class to handle threaded data which genereted by CakePHP Model::find('threaded')",
+  "keywords": [
+    "cakephp",
+    "plugin",
+    "utility",
+    "threaded",
+    "table",
+    "rows"
+  ],
+  "homepage": "https://github.com/zuborawka/cakephp-thread-utility",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zuborawka",
+      "email": "zuborawka@live.jp"
+    }
+  ],
+  "require": {
+    "php": ">=5.2.8",
+    "composer/installers": "*"
+  }
+}
