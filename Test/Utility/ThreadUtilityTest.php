@@ -77,6 +77,72 @@ class ThreadUtilityTest extends CakeTestCase {
 		$result = ThreadUtility::maxDepthOfThread($threaded);
 		$expected = 4;
 		$this->assertEquals($expected, $result);
+
+		$threaded = array(
+			array(
+				'children' => array(
+					array(
+						'children' => array(
+						),
+					),
+					array(
+						'children' => array(
+							array(
+								'children' => array(
+									array(
+										'children' => array(
+										),
+									),
+								),
+							),
+						),
+					),
+					array(
+						'children' => array(
+							array(
+								'children' => array(
+								),
+							),
+						),
+					),
+					array(
+						'children' => array(
+							array(
+								'children' => array(
+								),
+							),
+						),
+					),
+					array(
+						'children' => array(
+							array(
+								'children' => array(
+								),
+							),
+						),
+					),
+					array(
+						'children' => array(
+							array(
+								'children' => array(
+								),
+							),
+						),
+					),
+					array(
+						'children' => array(
+							array(
+								'children' => array(
+								),
+							),
+						),
+					),
+				),
+			),
+		);
+		$result = ThreadUtility::maxDepthOfThread($threaded);
+		$expected = 4;
+		$this->assertEquals($expected, $result);
 	}
 
 	public function testThreadToRows()
