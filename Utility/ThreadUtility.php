@@ -18,9 +18,9 @@ class ThreadUtility {
 	 */
 	protected static function _maxDepthOfThread($thread, $depth = 1, $maxDepth = 1)
 	{
+		$depth++;
 		foreach ($thread as $_thread) {
 			if (! empty($_thread['children'])) {
-				$depth++;
 				if ($maxDepth < $depth) {
 					$maxDepth = $depth;
 				}
