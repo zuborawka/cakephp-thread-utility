@@ -28,7 +28,7 @@ $tableRows = ThreadUtility::threadToRows($threaded);
       $colSpan = $tableRow['colSpan'] > 1 ? ' colspan="' . $tableCol['colSpan'] . '"' : '';
       $rowSpan = $tableRow['rowSpan'] > 1 ? ' rowspan="' . $tableCol['rowSpan'] . '"' : '';
       $name = h($tableRow['Category']['name']);
-      printf('<td%s%s>%s</td>', $colspan, $rowspan, $name);
+      printf('<td%s%s>%s</td>', $colSpan, $rowSpan, $name);
     endforeach;
     ?>
     </tr>
