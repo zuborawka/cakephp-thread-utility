@@ -140,7 +140,7 @@ class ThreadUtility {
 	 *                 $rowSpan = $comment['rowSpan'] === 1 ? '' : ' rowspan="' . $comment['rowSpan'];
 	 *                 $name = h($comment['Comment']['name']);
 	 *                 $content = h($comment['Comment']['content']);
-	 *                 printf('<td%s%s><span class="user">%s</span><div class="contents">%s</div></td>', $colspan, $rowspan, $name, $content);
+	 *                 printf('<td%s%s><span class="user">%s</span><div class="contents">%s</div></td>', $colSpan, $rowSpan, $name, $content);
 	 *             endforeach;
 	 *         ?>
 	 *         </tr>
