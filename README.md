@@ -24,10 +24,10 @@ $tableRows = ThreadUtility::threadToRows($threaded);
     ?>
     <tr>
     <?php
-    foreach ($tableRow as $tableCol):
-      $colSpan = $tableRow['colSpan'] > 1 ? ' colspan="' . $tableCol['colSpan'] . '"' : '';
-      $rowSpan = $tableRow['rowSpan'] > 1 ? ' rowspan="' . $tableCol['rowSpan'] . '"' : '';
-      $name = h($tableRow['Category']['name']);
+    foreach ($tableRow as $tableCell):
+      $colSpan = $tableCell['colSpan'] > 1 ? ' colspan="' . $tableCell['colSpan'] . '"' : '';
+      $rowSpan = $tableCell['rowSpan'] > 1 ? ' rowspan="' . $tableCell['rowSpan'] . '"' : '';
+      $name = h($tableCell['Category']['name']);
       printf('<td%s%s>%s</td>', $colSpan, $rowSpan, $name);
     endforeach;
     ?>
