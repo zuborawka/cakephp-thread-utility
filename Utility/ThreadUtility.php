@@ -40,7 +40,7 @@ class ThreadUtility {
 			$children = $_thread['children'];
 			self::_setRowSpan($children);
 			$thread[$i]['children'] = $children;
-			$thread[$i]['rowSpan'] = self::_countRowSpan($_thread);
+			$thread[$i]['rowspan'] = self::_countRowSpan($_thread);
 		}
 	}
 
@@ -77,14 +77,14 @@ class ThreadUtility {
 		foreach ($thread as $_thread) {
 			$children = $_thread['children'];
 			unset($_thread['children']);
-			$colSpan = $children ? 1 : $maxDepth - $currentDepth;
-			$rowSpan = $_thread['rowSpan'];
+			$colspan = $children ? 1 : $maxDepth - $currentDepth;
+			$rowspan = $_thread['rowspan'];
 			$pos = isset($positioning[$currentDepth]) ? $positioning[$currentDepth] : 0;
-			$nextRowPos = $pos + $rowSpan;
-			for ($_ = 0; $_ < $colSpan; $_++) {
+			$nextRowPos = $pos + $rowspan;
+			for ($_ = 0; $_ < $colspan; $_++) {
 				$positioning[$currentDepth + $_] = $nextRowPos;
 			}
-			$_thread['colSpan'] = $colSpan;
+			$_thread['colspan'] = $colspan;
 			if (! isset($rows[$pos])) {
 				$rows[$pos] = array();
 			}
@@ -115,7 +115,7 @@ class ThreadUtility {
 	/**
 	 * スレッド形式のデータを、HTMLのテーブルのコードに利用な形式に再構築して返します。
 	 * 元のツリー上のデータは、新しく各行にフラットに配置されます。
-	 * 各データの 'children' キーの値は破棄され、新たに 'colSpan' と 'rowSpan' の2つの整数値がセットされています。
+	 * 各データの 'children' キーの値は破棄され、新たに 'colspan' と 'rowspan' の2つの整数値がセットされています。
 	 * HTMLコーディングの際に、これらの値を用いることで元の入れ子状態を表現したテーブルの記述が可能になります。
 	 *
 	 * Returns reconstructed array for table code from threaded array.
@@ -136,11 +136,11 @@ class ThreadUtility {
 	 *         <tr>
 	 *         <?php
 	 *             foreach ($tableRow as $comment):
-	 *                 $colSpan = $comment['colSpan'] === 1 ? '' : ' colspan="' . $comment['colSpan'];
-	 *                 $rowSpan = $comment['rowSpan'] === 1 ? '' : ' rowspan="' . $comment['rowSpan'];
+	 *                 $colspan = $comment['colspan'] === 1 ? '' : ' colspan="' . $comment['colspan'];
+	 *                 $rowspan = $comment['rowspan'] === 1 ? '' : ' rowspan="' . $comment['rowspan'];
 	 *                 $name = h($comment['Comment']['name']);
 	 *                 $content = h($comment['Comment']['content']);
-	 *                 printf('<td%s%s><span class="user">%s</span><div class="contents">%s</div></td>', $colSpan, $rowSpan, $name, $content);
+	 *                 printf('<td%s%s><span class="user">%s</span><div class="contents">%s</div></td>', $colspan, $rowspan, $name, $content);
 	 *             endforeach;
 	 *         ?>
 	 *         </tr>
